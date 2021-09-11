@@ -22,7 +22,7 @@ document.addEventListener("keydown", function (e) {
       enable_loop = true;
       console.log("repeat", repeatTime_A, repeatTime_B);
       break;
-    case 'KeyC':
+    case 'KeyN':
       enable_loop = !enable_loop;
       console.log("repeat", enable_loop);
       break;
