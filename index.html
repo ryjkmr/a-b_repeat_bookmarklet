@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    #wrapper {
+      margin-left: 20px;
+      width: 80%;
+    }
+
+     p {
+      font-size: large;
+    }
+
+    li{
+      font-weight: bold;
+      font-size: large;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=wrapper>
+    <h1> A-B Repeat Bookmarklet Sample Page</h1>
+    <hr>
+    <p>YouTubeの動画を見ながら楽器の練習をするときなどに、任意の部分を自動リピートさせるブックマークレットです</p>
+    <p>ブックマークレットって何？という方は、適当にぐぐってみて下さい</p>
+    <p>リピートの開始位置と終了位置を設定できます</p>
+    <p>うまく動かないときは日本語入力が干渉しているかもしれません</p>
+    <p>MacのChromeでしか試していません。YouTube以外でも使えますが、表示するサイトによってうまく動かないことがあります</p>
+    <p>MITライセンス。改変自由。本ソフトウエアの利用による如何なる損害に対して作者は責任を追いません　ryjkmr.com</p>
+    <hr>
+    <ol>
+      <li>↓このリンクをドラッグ&ドロップするなどしてブラウザのブックマークに登録</li>
+      <a href="javascript:const videoElement=document.querySelector('video');let repeatTime_A=0;let repeatTime_B=videoElement.duration;let enable_loop=true;console.log('A-B repeat bookmarklet is on');document.addEventListener('keydown',function(e){const now=videoElement.currentTime;console.log(e.key);if(e.shiftKey||e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;switch(e.code){case'KeyA':repeatTime_A=now;if(now>repeatTime_B)repeatTime_B=videoElement.duration;enable_loop=true;console.log('repeat',repeatTime_A,repeatTime_B);break;case'KeyB':repeatTime_B=now<1?1:now;if(now<=repeatTime_A)repeatTime_A=0;enable_loop=true;console.log('repeat',repeatTime_A,repeatTime_B);break;case'KeyC':enable_loop=!enable_loop;console.log('repeat',enable_loop);break}});videoElement.addEventListener('seeking',(e)=>{const now=videoElement.currentTime;if(now>repeatTime_B||now<repeatTime_A){enable_loop=false;console.log('repeat is off')}else{enable_loop=true;console.log('repeat is on')}});videoElement.addEventListener('timeupdate',(e)=>{const now=videoElement.currentTime;if(enable_loop){if(now>repeatTime_B){videoElement.currentTime=repeatTime_A}else if(now<repeatTime_A){videoElement.currentTime=repeatTime_A}}});void(0);">A-B Repeat Bookmarklet</a>
+      <p>（この場で試すだけなら単にクリックしてstep4へ）</p>
+      <li>YouTubeの任意の動画ページを表示</li>
+      <li>登録したブックマークをクリックor選択（見かけ上は何の変化もありません）</li>
+      <br>
+      <li>【開始位置の登録】動画の繰り返し再生を始めたいところでキーボードのAを押す</li>
+      <li>【終了位置の登録】動画の繰り返し再生を終わらせたいところでキーボードのBを押す</li>
+      <p></p>
+      <li>【リピート解除・再開】キーボードのCを押すとリピートの解除・再開ができる</li>
+      <li>リピート範囲外にシークさせるとリピートが解除されます。Cキーで再開</li>
+    </ol>
+    <hr>
+    <p> </p>
+    <div id="video">
+      <br>
+      <video src="./sample.mp4" controls width="100%" height="auto"></video>
+    </div>
+
+    <hr>
+    <h2>高機能バージョン</h2>
+    <p>以下は再生速度調整と10秒スキップ、5秒戻し機能を搭載したバージョンです</p>
+    <ol>
+      <li>↓このリンクをドラッグ&ドロップするなどしてブラウザのブックマークに登録</li>
+      <a href="javascript:const videoElement=document.querySelector('video');let repeatTime_A=0;let repeatTime_B=videoElement.duration;let enable_loop=true;console.log('A-B repeat bookmarklet is on');document.addEventListener('keydown',function(e){const now=videoElement.currentTime;console.log(e.key);if(e.shiftKey||e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;switch(e.code){case'KeyA':repeatTime_A=now;if(now>repeatTime_B)repeatTime_B=videoElement.duration;enable_loop=true;console.log('repeat',repeatTime_A,repeatTime_B);break;case'KeyB':repeatTime_B=now<1?1:now;if(now<=repeatTime_A)repeatTime_A=0;enable_loop=true;console.log('repeat',repeatTime_A,repeatTime_B);break;case'KeyC':enable_loop=!enable_loop;console.log('repeat',enable_loop);break;case'KeyD':videoElement.playbackRate+=0.1;console.log('playback rate',videoElement.playbackRate);break;case'KeyS':videoElement.playbackRate-=0.1;console.log('playback rate',videoElement.playbackRate);break;case'KeyR':videoElement.playbackRate=1;console.log('playback rate',videoElement.playbackRate);break;case'KeyX':videoElement.currentTime+=10;console.log('+10sec');break;case'KeyZ':videoElement.currentTime-=5;console.log('-5sec');break}});videoElement.addEventListener('seeking',(e)=>{const now=videoElement.currentTime;if(now>repeatTime_B||now<repeatTime_A){enable_loop=false;console.log('repeat is off')}else{enable_loop=true;console.log('repeat is on')}});videoElement.addEventListener('timeupdate',(e)=>{const now=videoElement.currentTime;if(enable_loop){if(now>repeatTime_B){videoElement.currentTime=repeatTime_A}else if(now<repeatTime_A){videoElement.currentTime=repeatTime_A}}});void(0);">A-B Repeat,Playback Rate change,skip,back bookmarklet</a>
+      <p>A-Bリピートのみ版との重複使用はできません。どちらか一方だけ起動してください。ページをリロードすると設定したブックマークレットはクリアされます。</p>
+      <br>
+      <li>【再生速度アップ】キーボードのDを押す</li>
+      <li>【再生速度ダウン】キーボードのSを押す</li>
+      <li>【再生速度リセット】キーボードのRを押す</li>
+      <li>【10秒スキップ】キーボードのXを押す</li>
+      <li>【5秒戻し】キーボードのZを押す</li>
+    </ol>
+
+
+  </div>
+
+
+</body>
+
+</html>
